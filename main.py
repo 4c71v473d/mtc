@@ -101,23 +101,23 @@ class AppWindow(QMainWindow):
         self.table_widget.setColumnHidden(5, True)
 
     def populate_table(self, data):
-        self.table_widget.setRowCount(0)  # Clear existing rows
+        self.table_widget.setRowCount(0) 
 
         for row_number, row_data in enumerate(data):
             self.table_widget.insertRow(row_number)
-            for column_number, column_data in enumerate(row_data[1:]):  # Skipping the 'id' column
+            for column_number, column_data in enumerate(row_data[1:]):  
                 item = QTableWidgetItem(str(column_data))
-                item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # Make the cell read-only
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable) 
                 self.table_widget.setItem(row_number, column_number, item)
 
     def update_table_row(self, row_id, new_details):
         for row_index in range(self.table_widget.rowCount()):
-            item = self.table_widget.item(row_index, 0)  # Assuming the first column is 'id'
+            item = self.table_widget.item(row_index, 0) 
             if item is not None and item.data(Qt.DisplayRole) == row_id:
                 for col, detail in enumerate(new_details):
                     item = QTableWidgetItem(detail)
-                    self.table_widget.setItem(row_index, col, item)  # +1 to skip the 'id' column
-                break  # Stop after finding the row
+                    self.table_widget.setItem(row_index, col, item) 
+                break  
 
     def filter_in_progress(self):
         self.db_manager.cursor.execute("SELECT * FROM tasks WHERE status = ?", ("В работе",))
@@ -136,7 +136,7 @@ class AppWindow(QMainWindow):
 
     def show_details(self, index):
         row = index.row()
-        row_id = self.table_widget.item(row, 0).data(Qt.DisplayRole)  # Get data as it is
+        row_id = self.table_widget.item(row, 0).data(Qt.DisplayRole) 
         details = [self.table_widget.item(row, col).text() for col in range(self.table_widget.columnCount())]
 
         if self.details_dialog:
@@ -152,4 +152,5 @@ if __name__ == '__main__':
     window = AppWindow()
     window.show()
     sys.exit(app.exec_())
+
 
